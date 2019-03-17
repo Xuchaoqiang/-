@@ -2,60 +2,57 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>test</title>
+    <title>books</title>
     <style type="text/css">
         .t_head td {
             font-weight: bold;
         }
     </style>
 
-
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/static/bs/css/bootstrap.css">
 </head>
 <body>
 
+<h2>查看书籍</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2" style="margin-top: 80px">
+            <a href="/addbook/" class="btn btn-primary">添加书籍</a>
+            <table class="table table-bordered">
+                <tr class="t_head">
+                    <th>编号</th>
+                    <th>书籍名称</th>
+                    <th>价格</th>
+                    <th>出版日期</th>
+                    <th>出版社</th>
+                    <th>作者</th>
+                    <th>删除操作</th>
+                    <th>编辑操作</th>
+                </tr>
+                {% for obj in book_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ obj.title }}</td>
+                        <td>{{ obj.price }}</td>
+                        <td>{{ obj.pub_date|date:'Y-m-d' }}</td>
+                        <td>{{ obj.publish.name }}</td>
+                        <td>
+                            {% for author in obj.authors.all %}
+                                <span>{{ author.name }}</span>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a href="/books/{{ obj.pk }}/delete" class="btn btn-danger">删除</a>
+                        </td>
+                        <td>
+                            <a href="/books/{{ obj.pk }}/change" class="btn btn-info">编辑</a>
+                        </td>
+                    </tr>
+                {% endfor %}
 
-<div class="row">
-    <div class="col-md-4">
-        <h2 style="font-weight: bold">查看书籍</h2>
+            </table>
+        </div>
     </div>
-    <div class="col-md-4" style="margin-top: 250px">
-        <button type="button" class="btn btn-primary"> 添加书籍 </button>
-        <table class="table table-bordered">
-            <tr class="t_head">
-                <td>书籍名称</td>
-                <td>价格</td>
-                <td>出版日期</td>
-                <td>出版社</td>
-                <td>删除操作</td>
-                <td>编辑操作</td>
-            </tr>
-            <tr>
-                <td>python金瓶梅</td>
-                <td>100</td>
-                <td>2020-10-08</td>
-                <td>任命出版社</td>
-                <td>
-                    <button type="button" class="btn btn-danger">删除</button>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-info">编辑</button>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="col-md-4"></div>
 </div>
 </body>
 </html>
